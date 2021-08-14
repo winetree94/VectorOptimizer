@@ -4,7 +4,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: 'development',
-  entry: prod ? './src/entry.ts' : './src/dev.ts',
+  entry: './src/curves.sample/main.ts',
   module: {
     rules: [
       {
