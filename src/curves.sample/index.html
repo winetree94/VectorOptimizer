@@ -16,6 +16,7 @@
           <h3>Preprocess Mode</h3>
           <div id="preprocess-mode-layout">
             <div>
+            <div>
               <input
                 type="radio"
                 name="preprocess-mode"
@@ -101,25 +102,25 @@
               <span id="linearize-point-distance">1</span>
             </h3>
             <div>
-              <input type="range" min="1" max="100" value="1" />
+              <input id="linearize-point-distance-slider" type="range" min="1" max="30" value="1" step="0.5" />
             </div>
           </div>
           <div>
             <h3>
               Ramer-Douglas-Peucker error:&nbsp;
-              <span id="ramer-douglas-peucker-error">2</span>
+              <span id="ramer-douglas-peucker-error">1</span>
             </h3>
             <div>
-              <input type="range" min="1" max="100" value="1" />
+              <input id="ramer-douglas-peucker-error-slider" type="range" min="1" max="100" value="1" />
             </div>
           </div>
           <div>
             <h3>
               Curve fitting error:&nbsp;
-              <span id="linearize-point-distance">1</span>
+              <span id="curve-fitting-error">1</span>
             </h3>
             <div>
-              <input type="range" min="1" max="100" value="1" />
+              <input id="curve-fitting-error-slider" type="range" min="1" max="100" value="1" />
             </div>
           </div>
         </div>
