@@ -1,55 +1,84 @@
-import { SVGPathRenderer, SVGPathRendererOptions } from './renderer';
+import { linearize } from '../../curves/curve-preprocess';
+import { Vector } from '../../curves/vector';
+
+export interface Point {
+  x: number;
+  y: number;
+}
+
+export enum RenderMode {
+  ORIGINAL_POINT = 'original-points',
+  PREPROCESSED = 'preprocessed',
+  CONTROL_POINTS = 'control-points',
+  REPARAMATERIZED = 'reparamaterized',
+  FINAL_CURVES = 'final-curves',
+}
+
+export enum PreprocessMode {
+  NONE = 'none',
+  LINEARIZE = 'linearize',
+  RAMER_DOUGLAS_PEUCHER = 'ramer-douglas-peucher',
+}
 
 export interface DrawerOptions {
-  strokeWidth: number;
-  strokeColor: string;
+  renderMode: RenderMode;
+  preprocessMode: PreprocessMode;
+  linearizePointDistance: number;
 }
 
 export class Drawer {
-  private renderer: SVGPathRenderer;
+  private originPoints: Point[] = [];
 
-  public constructor(private readonly element: SVGElement) {
-    this.renderer = new SVGPathRenderer(element, {
-      bezier: true,
-      maxVertexCountPerPath: 30,
-      realTimeLinearize: true,
-      linearMinDisance: 3,
-      trackingPoint: true,
-      strokeColor: 'black',
-      strokeWidth: 5,
-    });
+  private _options: DrawerOptions = {
+    preprocessMode: PreprocessMode.NONE,
+    renderMode: RenderMode.ORIGINAL_POINT,
+    linearizePointDistance: 1,
+  };
+
+  public get options(): DrawerOptions {
+    return this._options;
+  }
+
+  public set options(options: DrawerOptions) {
+    Object.assign(this._options, options);
+    this.render();
+  }
+
+  public constructor(private readonly element: SVGSVGElement) {
     element.addEventListener('pointerdown', this.onMouseDown.bind(this));
     element.addEventListener('mousedown', this.onMouseDown.bind(this));
     element.addEventListener('touchstart', (e) => e.preventDefault());
   }
 
-  public setOptions(options: SVGPathRendererOptions): void {
-    this.renderer.options = options;
-  }
-
   private onMouseDown(event: MouseEvent): void {
     event.preventDefault();
+    this.clearOriginPoints();
+    this.clearView();
 
-    const ref = this.renderer.getFreeDrawRef();
-    ref.start({
+    const startPoint = {
       x: event.offsetX,
       y: event.offsetY,
-    });
+    };
+    const $startCircle = this.createCircle(startPoint);
+    this.element.append($startCircle);
+    this.originPoints.push(startPoint);
 
     const onMouseMove = (event: MouseEvent) => {
-      ref.forward({
+      const point = {
         x: event.offsetX,
         y: event.offsetY,
-      });
+      };
+      const $circle = this.createCircle(point);
+      this.element.append($circle);
+      this.originPoints.push(point);
     };
 
-    const onMouseUp = (event: MouseEvent) => {
-      this.renderer.merge();
+    const onMouseUp = () => {
       this.element.removeEventListener('pointermove', onMouseMove);
       this.element.removeEventListener('pointerup', onMouseUp);
       this.element.removeEventListener('mousemove', onMouseMove);
       this.element.removeEventListener('mouseup', onMouseUp);
-      ref.finish();
+      this.render();
     };
 
     this.element.addEventListener('mousemove', onMouseMove);
@@ -58,15 +87,61 @@ export class Drawer {
     this.element.addEventListener('pointerup', onMouseUp);
   }
 
-  public linearize(): void {
-    this.renderer.linearize();
+  public createCircle(point: Point): SVGCircleElement {
+    const $circle = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+    $circle.setAttribute('cx', point.x.toString());
+    $circle.setAttribute('cy', point.y.toString());
+    $circle.setAttribute('r', (1).toString());
+    $circle.setAttribute('fill', 'red');
+    return $circle;
   }
 
-  public erase(): void {
-    this.renderer.clear();
+  public clearOriginPoints(): void {
+    this.originPoints.splice(0);
   }
 
-  public optimize(): void {
-    return;
+  public clearView(): void {
+    this.element.innerHTML = '';
+  }
+
+  private transformToVector(): Vector[] {
+    return this.originPoints.map((point) => Vector.from(point));
+  }
+
+  private getPreprocessedVectors(): Vector[] {
+    switch (this.options.preprocessMode) {
+      case PreprocessMode.NONE:
+        return this.transformToVector();
+      case PreprocessMode.LINEARIZE:
+        return linearize(
+          this.transformToVector(),
+          this.options.linearizePointDistance
+        );
+      case PreprocessMode.RAMER_DOUGLAS_PEUCHER:
+        return this.transformToVector();
+    }
+  }
+
+  private render(): void {
+    const vectors = this.getPreprocessedVectors();
+    switch (this.options.renderMode) {
+      case RenderMode.ORIGINAL_POINT:
+        this.clearView();
+        this.originPoints.forEach((point) => {
+          const $circle = this.createCircle(point);
+          this.element.append($circle);
+        });
+        break;
+      case RenderMode.PREPROCESSED:
+        this.clearView();
+        vectors.forEach((vector) => {
+          const $circle = this.createCircle(vector);
+          this.element.append($circle);
+        });
+        break;
+    }
   }
 }

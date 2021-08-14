@@ -1,11 +1,11 @@
-import { Drawer } from './drawer/drawer';
+import { Drawer, PreprocessMode, RenderMode } from './drawer/drawer';
 
-const $svg: SVGElement = document.getElementById(
+const $svg: SVGSVGElement = document.getElementById(
   'svg-root'
-) as unknown as SVGElement;
+) as unknown as SVGSVGElement;
 
-let preprocessMode: string = 'none';
-let renderMode: string = 'original-points';
+let preprocessMode: PreprocessMode = PreprocessMode.NONE;
+let renderMode: RenderMode = RenderMode.ORIGINAL_POINT;
 let linearizePointDistance: number = 1;
 let ramerDouglasPeuckerError: number = 1;
 let curveFittingError: number = 1;
@@ -15,7 +15,7 @@ $preprocessModes.forEach(($preprocessMode) =>
   $preprocessMode.addEventListener('click', (e) => {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
-      preprocessMode = target.value;
+      preprocessMode = target.value as PreprocessMode;
       onValueChanged();
     }
   })
@@ -26,7 +26,7 @@ $renderModes.forEach(($renderMode) =>
   $renderMode.addEventListener('click', (e) => {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
-      renderMode = target.value;
+      renderMode = target.value as RenderMode;
       onValueChanged();
     }
   })
@@ -74,14 +74,12 @@ $ramerDouglasPeuckerError.addEventListener('input', (e) => {
   onValueChanged();
 });
 
-function onValueChanged(): void {
-  console.log(
-    preprocessMode,
-    renderMode,
-    linearizePointDistance,
-    ramerDouglasPeuckerError,
-    curveFittingError
-  );
-}
-
 const drawer = new Drawer($svg);
+
+function onValueChanged(): void {
+  drawer.options = {
+    renderMode: renderMode,
+    preprocessMode: preprocessMode,
+    linearizePointDistance: linearizePointDistance,
+  };
+}
