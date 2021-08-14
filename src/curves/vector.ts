@@ -66,10 +66,6 @@ export class Vector {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
-  public magnitude(): number {
-    return this.length();
-  }
-
   public normalize(): Vector {
     return this.divide(this.length());
   }

@@ -1,11 +1,12 @@
-import { Vector } from '../../curves/vector';
 import { CubicBezier } from './cubic-bezier';
+import { CurveFitBase } from './curve-fit-base';
+import { Vector } from './vector';
 
 const MAX_ITERS = 4;
 const END_TANGENT_N_PTS = 8;
 const MID_TANGENT_N_PTS = 4;
 
-export class CurveFit {
+export class CurveFit extends CurveFitBase {
   private static _instance: CurveFit;
 
   private static GetInstance() {
@@ -22,8 +23,9 @@ export class CurveFit {
 
   private _result: CubicBezier[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
+  private constructor() {
+    super();
+  }
 
   /**
    * passed
@@ -426,12 +428,12 @@ export class CurveFit {
 
     // Since the points are never coincident, the vector between any two of them will be normalizable, however this can happen in some really
     // odd cases when the points are going directly opposite directions (therefore the tangent is undefined)
-    if (total.magnitude() * total.magnitude() < Number.EPSILON) {
+    if (total.length() * total.length() < Number.EPSILON) {
       // try one last time using only the three points at the center, otherwise just use one of the sides
       tanL = pts[split - 1].subtract(pSplit).normalize();
       tanR = pSplit.subtract(pts[split + 1]).normalize();
       total = tanL.add(tanR);
-      return total.magnitude() * total.magnitude() < Number.EPSILON
+      return total.length() * total.length() < Number.EPSILON
         ? tanL
         : total.subtract(2).normalize();
     } else {
