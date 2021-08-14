@@ -1,8 +1,7 @@
-import { TPoint } from './free-draw';
 import { Vector } from './vector';
 
 export function linearize(
-  src: TPoint[],
+  src: Vector[],
   md: number,
   keepLast = false,
   all = true
@@ -18,21 +17,21 @@ export function linearize(
 
   if (src.length > 0) {
     let pp = src[0];
-    dist.push(Vector.from(pp));
+    dist.push(pp);
     let cd = 0;
     for (let ip = 1; ip < src.length; ip++) {
       const p0 = src[ip - 1];
       const p1 = src[ip];
-      const td = Vector.from(p0).distance(Vector.from(p1));
+      const td = p0.distance(p1);
       if (cd + td > md) {
         const pd = md - cd;
-        dist.push(Vector.from(p0).lerp(Vector.from(p1), pd / td));
+        dist.push(p0.lerp(p1, pd / td));
         let rd = td - pd;
         while (rd > md) {
           rd -= md;
           if (all) {
-            const np = Vector.from(p0).lerp(Vector.from(p1), (td - rd) / td);
-            if (!np.equalsOrClose(Vector.from(pp))) {
+            const np = p0.lerp(p1, (td - rd) / td);
+            if (!np.equalsOrClose(pp)) {
               dist.push(np);
               pp = np;
             }
@@ -44,8 +43,8 @@ export function linearize(
       }
     }
     const lp = src[src.length - 1];
-    if (keepLast || !Vector.from(pp).equalsOrClose(Vector.from(lp))) {
-      dist.push(Vector.from(lp));
+    if (keepLast || !pp.equalsOrClose(lp)) {
+      dist.push(lp);
     }
   }
   return dist;

@@ -1,4 +1,4 @@
-import { Vector } from './vector';
+import { Vector } from '../../curves/vector';
 
 export class CubicBezier {
   public constructor(

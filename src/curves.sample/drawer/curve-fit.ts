@@ -1,5 +1,5 @@
+import { Vector } from '../../curves/vector';
 import { CubicBezier } from './cubic-bezier';
-import { Vector } from './vector';
 
 const MAX_ITERS = 4;
 const END_TANGENT_N_PTS = 8;

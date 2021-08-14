@@ -1,7 +1,7 @@
+import { linearize } from '../../curves/curve-preprocess';
+import { Vector } from '../../curves/vector';
 import { FreeDrawRefOptions, SvgFreeDrawRef, TPoint } from './free-draw';
-import { linearize } from './linearize';
 import { Path, PathD, PathDPrefix, PathOptions } from './path';
-import { Vector } from './vector';
 
 export interface SVGPathRendererOptions
   extends FreeDrawRefOptions,
@@ -141,7 +141,7 @@ export class SVGPathRenderer {
   private getLinearizedPoints(keepLast = true, all = false): Vector[][] {
     return this.getPoints().map((strokes) => {
       const linearizedPoints = linearize(
-        strokes,
+        strokes.map((stroke) => Vector.from(stroke)),
         this.options.linearMinDisance || 6,
         keepLast,
         all

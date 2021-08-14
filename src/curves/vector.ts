@@ -1,7 +1,5 @@
-import { TPoint } from './free-draw';
-
 export class Vector {
-  public static from(point: TPoint): Vector {
+  public static from(point: { x: number; y: number }): Vector {
     return new Vector(point.x, point.y);
   }
 

@@ -1,6 +1,6 @@
+import { Vector } from '../../curves/vector';
 import { Path, PathD, PathDPrefix, PathOptions } from './path';
 import { SVGPathRenderer } from './renderer';
-import { Vector } from './vector';
 
 export interface TPoint {
   x: number;
