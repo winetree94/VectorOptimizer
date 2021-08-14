@@ -82,4 +82,5 @@ function onValueChanged(): void {
     preprocessMode: preprocessMode,
     linearizePointDistance: linearizePointDistance,
   };
+  console.log(drawer.options);
 }

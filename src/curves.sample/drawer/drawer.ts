@@ -126,7 +126,6 @@ export class Drawer {
   }
 
   private render(): void {
-    const vectors = this.getPreprocessedVectors();
     switch (this.options.renderMode) {
       case RenderMode.ORIGINAL_POINT:
         this.clearView();
@@ -137,7 +136,7 @@ export class Drawer {
         break;
       case RenderMode.PREPROCESSED:
         this.clearView();
-        vectors.forEach((vector) => {
+        this.getPreprocessedVectors().forEach((vector) => {
           const $circle = this.createCircle(vector);
           this.element.append($circle);
         });
