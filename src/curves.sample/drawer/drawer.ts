@@ -65,4 +65,8 @@ export class Drawer {
   public erase(): void {
     this.renderer.clear();
   }
+
+  public optimize(): void {
+    return;
+  }
 }
