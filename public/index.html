@@ -1,55 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id="root">
-    <div id="button-layout">
-      <button id="clear">clear</button>
-      <button id="linearize">linearize</button>
-      <button id="optimize">optimize</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <div id="svg-layout">
+        <svg id="svg-root"></svg>
+      </div>
+      <div id="functions-layout">
+        <div>
+          <h3>Preprocess Mode</h3>
+          <div id="preprocess-mode-layout">
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="none"
+                value="none"
+                checked
+              />
+              <label for="none">None</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="linearize"
+                value="linearize"
+              />
+              <label for="linearize">Linearize</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="ramer-douglas-peucker"
+                value="ramer-douglas-peucker"
+              />
+              <label for="ramer-douglas-peucker">Ramer-Douglas-Peucher</label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Render Mode</h3>
+          <div id="render-mode-layout">
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="original-point"
+                value="original-point"
+                checked
+              />
+              <label for="original-point">Original Points</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="preprocessed"
+                value="preprocessed"
+              />
+              <label for="preprocessed">Preprocessed</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="control-points"
+                value="control-points"
+              />
+              <label for="control-points">Control Points</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="reparamaterized"
+                value="reparamaterized"
+              />
+              <label for="reparamaterized">Reparamaterized</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="final-curves"
+                value="final-curves"
+              />
+              <label for="final-curves">Final curves</label>
+            </div>
+          </div>
+          <div>
+            <h3>
+              Linearize point distance:&nbsp;
+              <span id="linearize-point-distance">1</span>
+            </h3>
+            <div>
+              <input type="range" min="1" max="100" value="1" />
+            </div>
+          </div>
+          <div>
+            <h3>
+              Ramer-Douglas-Peucker error:&nbsp;
+              <span id="ramer-douglas-peucker-error">2</span>
+            </h3>
+            <div>
+              <input type="range" min="1" max="100" value="1" />
+            </div>
+          </div>
+          <div>
+            <h3>
+              Curve fitting error:&nbsp;
+              <span id="linearize-point-distance">1</span>
+            </h3>
+            <div>
+              <input type="range" min="1" max="100" value="1" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="svg-layout">
-      <svg id="svg-root"></svg>
-    </div>
-  </div>
-  <style>
-    body {
-      margin: 0;
-    }
+    <style>
+      body {
+        margin: 0;
+      }
 
-    #root {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+      #root {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+      }
 
-    #button-layout {
-      flex: 0 0 auto;
-      display: flex;
-      padding: 10px 10px 0 10px;
-    }
+      #svg-layout {
+        flex: 1 1 auto;
+      }
 
-    #button-layout > button:not(:first-child) {
-      margin-left: 10px;
-    }
+      #svg-root {
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
 
-    #svg-layout {
-      flex: 1 1 auto;
-      padding: 10px;
-    }
-    
-    #svg-root {
-      width: 100%;
-      height: 100%;
-      border: 1px solid black;
-      box-sizing: border-box;
-    }
-  </style>
-</body>
+      #functions-layout {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #preprocess-mode-layout {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #button-layout {
+        flex: 0 0 auto;
+        display: flex;
+      }
+    </style>
+  </body>
 </html>
