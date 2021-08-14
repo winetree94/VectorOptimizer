@@ -24,7 +24,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       inject: 'body',
-      template: 'public/index.html',
+      template: './src/curves.sample/index.html',
     }),
   ],
   output: {
