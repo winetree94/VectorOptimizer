@@ -22,5 +22,6 @@ module.exports = {
       "endOfLine":"auto"
     }],
     quotes: ['error', 'single'],
+    '@typescript-eslint/no-inferrable-types': 'off',
   }
 };
