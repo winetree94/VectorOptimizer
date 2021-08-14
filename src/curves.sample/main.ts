@@ -7,7 +7,7 @@ const $svg: SVGSVGElement = document.getElementById(
 let preprocessMode: PreprocessMode = PreprocessMode.NONE;
 let renderMode: RenderMode = RenderMode.ORIGINAL_POINT;
 let linearizePointDistance: number = 1;
-let ramerDouglasPeuckerError: number = 1;
+let ramerDouglaspeucherError: number = 1;
 let curveFittingError: number = 1;
 
 const $preprocessModes = document.getElementsByName('preprocess-mode');
@@ -60,17 +60,17 @@ $curveFittingError.addEventListener('input', (e) => {
   onValueChanged();
 });
 
-const $ramerDouglasPeuckerErrorDisplay = document.getElementById(
-  'ramer-douglas-peucker-error'
+const $ramerDouglaspeucherErrorDisplay = document.getElementById(
+  'ramer-douglas-peucher-error'
 );
-const $ramerDouglasPeuckerError = document.getElementById(
-  'ramer-douglas-peucker-error-slider'
+const $ramerDouglaspeucherError = document.getElementById(
+  'ramer-douglas-peucher-error-slider'
 ) as HTMLInputElement;
-$ramerDouglasPeuckerError.addEventListener('input', (e) => {
+$ramerDouglaspeucherError.addEventListener('input', (e) => {
   const target = e.target as HTMLInputElement;
   const value = Number(target.value);
-  $ramerDouglasPeuckerErrorDisplay.innerHTML = target.value;
-  ramerDouglasPeuckerError = value;
+  $ramerDouglaspeucherErrorDisplay.innerHTML = target.value;
+  ramerDouglaspeucherError = value;
   onValueChanged();
 });
 
