@@ -27,7 +27,6 @@ export class SVGPathRenderer {
   public constructor(element: SVGElement, options?: SVGPathRendererOptions) {
     this.element = element;
     this.options = options;
-    console.log(this);
   }
 
   public getDrawablePath(): Path {

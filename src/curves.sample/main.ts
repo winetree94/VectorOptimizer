@@ -81,6 +81,6 @@ function onValueChanged(): void {
     renderMode: renderMode,
     preprocessMode: preprocessMode,
     linearizePointDistance: linearizePointDistance,
+    curveFittingError: curveFittingError,
   };
-  console.log(drawer.options);
 }

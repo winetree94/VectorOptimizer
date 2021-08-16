@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+import { CurveFit } from '../../curves/curve-fit';
 import { linearize } from '../../curves/curve-preprocess';
 import { Vector } from '../../curves/vector';
 
@@ -24,6 +26,7 @@ export interface DrawerOptions {
   renderMode: RenderMode;
   preprocessMode: PreprocessMode;
   linearizePointDistance: number;
+  curveFittingError: number;
 }
 
 export class Drawer {
@@ -33,6 +36,7 @@ export class Drawer {
     preprocessMode: PreprocessMode.NONE,
     renderMode: RenderMode.ORIGINAL_POINT,
     linearizePointDistance: 1,
+    curveFittingError: 1,
   };
 
   public get options(): DrawerOptions {
@@ -140,6 +144,30 @@ export class Drawer {
           const $circle = this.createCircle(vector);
           this.element.append($circle);
         });
+        break;
+      case RenderMode.FINAL_CURVES:
+        this.clearView();
+        const $path = document.createElementNS(
+          'http://www.w3.org/2000/svg',
+          'path'
+        );
+        $path.setAttribute('fill', 'none');
+        $path.setAttribute('stroke', 'red');
+        const d = CurveFit.Fit(
+          this.getPreprocessedVectors(),
+          this.options.curveFittingError
+        ).reduce((result, bezier, index) => {
+          let d = result;
+          if (index === 0) {
+            d += `M ${bezier.p0.x} ${bezier.p0.x} C `;
+          } else {
+            d += ',';
+          }
+          d += `${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`;
+          return d;
+        }, '');
+        $path.setAttribute('d', d);
+        this.element.append($path);
         break;
     }
   }

@@ -6,6 +6,8 @@ const MAX_ITERS = 4;
 const END_TANGENT_N_PTS = 8;
 const MID_TANGENT_N_PTS = 4;
 
+const NO_CURVES: CubicBezier[] = [];
+
 export class CurveFit extends CurveFitBase {
   private static _instance: CurveFit;
 
@@ -23,6 +25,19 @@ export class CurveFit extends CurveFitBase {
   }
 
   public static Fit(points: Vector[], maxError: number): CubicBezier[] {
+    if (maxError < Number.EPSILON) {
+      throw new Error(
+        'maxError cannot be negative/zero/less than epsilon value'
+      );
+    }
+    if (points == null) {
+      throw new Error('points');
+    }
+    // need at least 2 points to do anything
+    if (points.length < 2) {
+      return NO_CURVES;
+    }
+
     const instance = CurveFit.GetInstance();
 
     try {
