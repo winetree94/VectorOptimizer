@@ -1,4 +1,4 @@
-import { Drawer, PreprocessMode, RenderMode } from './drawer/drawer';
+import { Drawer, PreprocessMode, RenderMode } from './drawer';
 
 const $svg: SVGSVGElement = document.getElementById(
   'svg-root'
