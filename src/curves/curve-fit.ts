@@ -33,10 +33,9 @@ export class CurveFit extends CurveFitBase {
     if (points == null) {
       throw new Error('points');
     }
-    // need at least 2 points to do anything
     if (points.length < 2) {
       return NO_CURVES;
-    }
+    } // need at least 2 points to do anything
 
     const instance = CurveFit.GetInstance();
 

@@ -3,6 +3,15 @@ import { CurveFit } from '../../curves/curve-fit';
 import { linearize } from '../../curves/curve-preprocess';
 import { Vector } from '../../curves/vector';
 
+function getRandomColor(): string {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 export interface Point {
   x: number;
   y: number;
@@ -153,21 +162,25 @@ export class Drawer {
         );
         $path.setAttribute('fill', 'none');
         $path.setAttribute('stroke', 'red');
-        const d = CurveFit.Fit(
+
+        const curves = CurveFit.Fit(
           this.getPreprocessedVectors(),
           this.options.curveFittingError
-        ).reduce((result, bezier, index) => {
-          let d = result;
-          if (index === 0) {
-            d += `M ${bezier.p0.x} ${bezier.p0.x} C `;
-          } else {
-            d += ',';
-          }
-          d += `${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`;
-          return d;
-        }, '');
-        $path.setAttribute('d', d);
-        this.element.append($path);
+        );
+
+        curves.map((bezier) => {
+          const $path = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'path'
+          );
+          $path.setAttribute('fill', 'none');
+          $path.setAttribute('stroke', getRandomColor());
+          $path.setAttribute(
+            'd',
+            `M ${bezier.p0.x} ${bezier.p0.y} C ${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`
+          );
+          this.element.append($path);
+        });
         break;
     }
   }
