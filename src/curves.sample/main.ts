@@ -10,6 +10,17 @@ let linearizePointDistance: number = 1;
 let ramerDouglaspeucherError: number = 1;
 let curveFittingError: number = 1;
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+(HTMLCollection.prototype as any).forEach = function (
+  cb: (...args: any[]) => void
+) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  for (let i = 0; i < this.length; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    cb(this[i], i, this);
+  }
+};
+
 const $preprocessModes = document.getElementsByName('preprocess-mode');
 $preprocessModes.forEach(($preprocessMode) =>
   $preprocessMode.addEventListener('click', (e) => {

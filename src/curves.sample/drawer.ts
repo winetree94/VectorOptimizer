@@ -53,7 +53,10 @@ export class Drawer {
   }
 
   public set options(options: DrawerOptions) {
-    Object.assign(this._options, options);
+    this._options = {
+      ...this._options,
+      ...options,
+    };
     this.render();
   }
 
@@ -73,7 +76,7 @@ export class Drawer {
       y: event.offsetY,
     };
     const $startCircle = this.createCircle(startPoint);
-    this.element.append($startCircle);
+    this.element.appendChild($startCircle);
     this.originPoints.push(startPoint);
 
     const onMouseMove = (event: MouseEvent) => {
@@ -82,7 +85,7 @@ export class Drawer {
         y: event.offsetY,
       };
       const $circle = this.createCircle(point);
-      this.element.append($circle);
+      this.element.appendChild($circle);
       this.originPoints.push(point);
     };
 
@@ -144,14 +147,14 @@ export class Drawer {
         this.clearView();
         this.originPoints.forEach((point) => {
           const $circle = this.createCircle(point);
-          this.element.append($circle);
+          this.element.appendChild($circle);
         });
         break;
       case RenderMode.PREPROCESSED:
         this.clearView();
         this.getPreprocessedVectors().forEach((vector) => {
           const $circle = this.createCircle(vector);
-          this.element.append($circle);
+          this.element.appendChild($circle);
         });
         break;
       case RenderMode.FINAL_CURVES:
@@ -178,7 +181,7 @@ export class Drawer {
             'd',
             `M ${bezier.p0.x} ${bezier.p0.y} C ${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`
           );
-          this.element.append($path);
+          this.element.appendChild($path);
         });
         break;
     }

@@ -13,12 +13,11 @@ import { Vector } from './vector';
 export function linearize(
   src: Vector[],
   md: number,
-  keepLast = false,
-  all = true
+  keepLast: boolean = false,
+  all: boolean = true
 ): Vector[] {
   const dist: Vector[] = [];
-
-  if (src == null) {
+  if (src === null) {
     throw new Error('src');
   }
   if (md <= Number.EPSILON) {

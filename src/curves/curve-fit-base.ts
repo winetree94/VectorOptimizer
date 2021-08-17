@@ -164,12 +164,8 @@ export class CurveFitBase {
 
     // split at point of maximum error
     split = s + first;
-    if (split <= first) {
-      split = first + 1;
-    }
-    if (split >= last) {
-      split = last - 1;
-    }
+    if (split <= first) split = first + 1;
+    if (split >= last) split = last - 1;
 
     result.split = split;
     result.response = max;
@@ -248,6 +244,9 @@ export class CurveFitBase {
     }
   }
 
+  /// <summary>
+  /// Attempts to find a slightly better parameterization for u on the given curve.
+  /// </summary>
   protected Reparameterize(
     first: number,
     last: number,
@@ -262,13 +261,13 @@ export class CurveFitBase {
       const ti = 1 - t;
 
       // Control vertices for Q'
-      const qp0 = curve.p1.subtract(curve.p0).multiply(new Vector(3, 3));
-      const qp1 = curve.p2.subtract(curve.p1).multiply(new Vector(3, 3));
-      const qp2 = curve.p3.subtract(curve.p2).multiply(new Vector(3, 3));
+      const qp0 = curve.p1.subtract(curve.p0).multiply(3);
+      const qp1 = curve.p2.subtract(curve.p1).multiply(3);
+      const qp2 = curve.p3.subtract(curve.p2).multiply(3);
 
       // Control vertices for Q''
-      const qpp0 = qp1.subtract(qp0).multiply(new Vector(2, 2));
-      const qpp1 = qp2.subtract(qp1).multiply(new Vector(2, 2));
+      const qpp0 = qp1.subtract(qp0).multiply(2);
+      const qpp1 = qp2.subtract(qp1).multiply(2);
 
       // Evaluate Q(t), Q'(t), and Q''(t)
       const p0 = curve.sample(t);
@@ -298,7 +297,9 @@ export class CurveFitBase {
     const start = arclen[first];
     const nPts = last - first;
     u.push(0);
-    for (let i = 1; i < nPts; i++) u.push((arclen[first + i] - start) / diff);
+    for (let i = 1; i < nPts; i++) {
+      u.push((arclen[first + i] - start) / diff);
+    }
     u.push(1);
   }
 
@@ -306,7 +307,6 @@ export class CurveFitBase {
     const pts = this._pts;
     const arclen = this._arclen;
     const totalLen = arclen[arclen.length - 1];
-
     const p0 = pts[0];
     let tanL = pts[1].subtract(p0).normalize();
     let total = tanL;
@@ -416,73 +416,6 @@ export class CurveFitBase {
         : total.divide(2).normalize();
     } else {
       return total.divide(2).normalize();
-    }
-  }
-
-  protected GetCenterTangent2(
-    first: number,
-    last: number,
-    split: number
-  ): Vector {
-    const pts = this._pts;
-    const arclen = this._arclen;
-
-    // because we want to maintain C1 continuity on the spline, the tangents on either side must be inverses of one another
-    const splitLen = arclen[split];
-    const pSplit = pts[split];
-
-    // left side
-    const firstLen = arclen[first];
-    let partLen = splitLen - firstLen;
-    let total: Vector = new Vector(0, 0);
-    let weightTotal = 0;
-    for (let i = Math.max(first, split - MID_TANGENT_N_PTS); i < split; i++) {
-      const t = (arclen[i] - firstLen) / partLen;
-      const weight = t * t * t;
-      const v = pts[i].subtract(pSplit).normalize();
-      total = total.add(v.multiply(weight));
-      weightTotal += weight;
-    }
-
-    let tanL =
-      total.length() > Number.EPSILON && weightTotal > Number.EPSILON
-        ? total.divide(weightTotal).normalize()
-        : pts[split - 1].subtract(pSplit).normalize();
-
-    // right side
-    partLen = arclen[last] - splitLen;
-    const rMax = Math.min(last, split + MID_TANGENT_N_PTS);
-    total = new Vector(0, 0);
-    weightTotal = 0;
-    for (let i = split + 1; i <= rMax; i++) {
-      const ti = 1 - (arclen[i] - splitLen) / partLen;
-      const weight = ti * ti * ti;
-      const v = pSplit.subtract(pts[i]).normalize();
-      total = total.add(v.multiply(weight));
-      weightTotal += weight;
-    }
-    let tanR =
-      total.length() > Number.EPSILON && weightTotal > Number.EPSILON
-        ? total.divide(weightTotal).normalize()
-        : pSplit.subtract(pts[split + 1]).normalize();
-
-    // The reason we separate this into two halves is because we want the right and left tangents to be weighted
-    // equally no matter the weights of the individual parts of them, so that one of the curves doesn't get screwed
-    // for the pleasure of the other half
-    total = tanL.add(tanR);
-
-    // Since the points are never coincident, the vector between any two of them will be normalizable, however this can happen in some really
-    // odd cases when the points are going directly opposite directions (therefore the tangent is undefined)
-    if (total.length() * total.length() < Number.EPSILON) {
-      // try one last time using only the three points at the center, otherwise just use one of the sides
-      tanL = pts[split - 1].subtract(pSplit).normalize();
-      tanR = pSplit.subtract(pts[split + 1]).normalize();
-      total = tanL.add(tanR);
-      return total.length() * total.length() < Number.EPSILON
-        ? tanL
-        : total.subtract(2).normalize();
-    } else {
-      return total.subtract(2).normalize();
     }
   }
 }
