@@ -163,12 +163,10 @@ export class Drawer {
         $path.setAttribute('fill', 'none');
         $path.setAttribute('stroke', 'red');
 
-        const curves = CurveFit.Fit(
+        CurveFit.Fit(
           this.getPreprocessedVectors(),
           this.options.curveFittingError
-        );
-
-        curves.map((bezier) => {
+        ).forEach((bezier) => {
           const $path = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'path'

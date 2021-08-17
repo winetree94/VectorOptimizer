@@ -70,6 +70,7 @@ export class CurveFit extends CurveFitBase {
     const fitCurveResult = this.FitCurve(first, last, tanL, tanR, curve, split);
     split = fitCurveResult.split;
     curve = fitCurveResult.curve;
+    console.log(fitCurveResult);
 
     if (fitCurveResult.response) {
       this._result.push(curve);

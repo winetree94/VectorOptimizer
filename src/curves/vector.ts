@@ -62,6 +62,10 @@ export class Vector {
     return this.x * a.x + this.y * a.y;
   }
 
+  public lengthSquared(): number {
+    return this.x * this.x + this.y * this.y;
+  }
+
   public length(): number {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }

@@ -347,7 +347,78 @@ export class CurveFitBase {
     return tanR;
   }
 
+  /// <summary>
+  /// Gets the tangent at a given point in the curve.
+  /// </summary>
   protected GetCenterTangent(
+    first: number,
+    last: number,
+    split: number
+  ): Vector {
+    const pts = this._pts;
+    const arclen = this._arclen;
+
+    // because we want to maintain C1 continuity on the spline, the tangents on either side must be inverses of one another
+    // Debug.Assert(first < split && split < last);
+    const splitLen = arclen[split];
+    const pSplit = pts[split];
+
+    // left side
+    const firstLen = arclen[first];
+    let partLen = splitLen - firstLen;
+    let total = new Vector(0, 0);
+    let weightTotal = 0;
+    for (let i = Math.max(first, split - MID_TANGENT_N_PTS); i < split; i++) {
+      const t = (arclen[i] - firstLen) / partLen;
+      const weight = t * t * t;
+      const v = pts[i].subtract(pSplit).normalize();
+      total = total.add(v.multiply(weight));
+      weightTotal += weight;
+    }
+    let tanL =
+      total.length() > Number.EPSILON && weightTotal > Number.EPSILON
+        ? total.divide(weightTotal).normalize()
+        : pts[split - 1].subtract(pSplit).normalize();
+
+    // right side
+    partLen = arclen[last] - splitLen;
+    const rMax = Math.min(last, split + MID_TANGENT_N_PTS);
+    total = new Vector(0, 0);
+    weightTotal = 0;
+    for (let i = split + 1; i <= rMax; i++) {
+      const ti = 1 - (arclen[i] - splitLen) / partLen;
+      const weight = ti * ti * ti;
+      const v = pSplit.subtract(pts[i]).normalize();
+      total = total.add(v.multiply(weight));
+      weightTotal += weight;
+    }
+
+    let tanR =
+      total.length() > Number.EPSILON && weightTotal > Number.EPSILON
+        ? total.divide(weightTotal).normalize()
+        : pSplit.subtract(pts[split + 1]).normalize();
+
+    // The reason we separate this into two halves is because we want the right and left tangents to be weighted
+    // equally no matter the weights of the individual parts of them, so that one of the curves doesn't get screwed
+    // for the pleasure of the other half
+    total = tanL.add(tanR);
+
+    // Since the points are never coincident, the vector between any two of them will be normalizable, however this can happen in some really
+    // odd cases when the points are going directly opposite directions (therefore the tangent is undefined)
+    if (total.lengthSquared() < Number.EPSILON) {
+      // try one last time using only the three points at the center, otherwise just use one of the sides
+      tanL = pts[split - 1].subtract(pSplit).normalize();
+      tanR = pSplit.subtract(pts[split + 1]).normalize();
+      total = tanL.add(tanR);
+      return total.lengthSquared() < Number.EPSILON
+        ? tanL
+        : total.divide(2).normalize();
+    } else {
+      return total.divide(2).normalize();
+    }
+  }
+
+  protected GetCenterTangent2(
     first: number,
     last: number,
     split: number
