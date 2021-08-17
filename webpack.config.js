@@ -33,6 +33,6 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: 'curves.min.js'
   },
-  devtool: 'eval-cheap-source-map',
+  devtool: 'source-map',
   target: ['web', 'es5'],
 };

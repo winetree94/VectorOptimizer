@@ -7,7 +7,7 @@
   "author": "winetree94",
   "license": "ISC",
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack serve --host 0.0.0.0",
     "build": "tsc && cross-env NODE_ENV=production webpack",
     "serve:dist": "http-server -p 9009 ./dist",
     "test": "jest"

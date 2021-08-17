@@ -185,13 +185,13 @@ export class CurveFitBase {
     const pts = this._pts;
     const u = this._u;
     const nPts = last - first + 1;
-    const p0 = pts[first];
-    const p3 = pts[last]; // first and last points of curve are actual points on data
-    let c00 = 0;
-    let c01 = 0;
-    let c11 = 0;
-    let x0 = 0;
-    let x1 = 0; // matrix members -- both C[0,1] and C[1,0] are the same, stored in c01
+    const p0 = pts[first],
+      p3 = pts[last]; // first and last points of curve are actual points on data
+    let c00 = 0,
+      c01 = 0,
+      c11 = 0,
+      x0 = 0,
+      x1 = 0; // matrix members -- both C[0,1] and C[1,0] are the same, stored in c01
     for (let i = 1; i < nPts; i++) {
       // Calculate cubic bezier multipliers
       const t = u[i];
@@ -212,6 +212,7 @@ export class CurveFitBase {
       // C matrix
       const a0 = tanL.multiply(t1);
       const a1 = tanR.multiply(t2);
+      c00 += a0.dot(a0);
       c00 += a0.dot(a0);
       c01 += a0.dot(a1);
       c11 += a1.dot(a1);
