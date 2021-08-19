@@ -27,10 +27,10 @@ const MID_TANGENT_N_PTS = 4; // maximum number of points on each side to base mi
 // Most of this is ported from http://tog.acm.org/resources/GraphicsGems/gems/FitCurves.c
 export class CurveFitBase {
   // Points in the whole line being used for fitting.
-  protected _pts: Vector[] = [];
+  public _pts: Vector[] = [];
   // length of curve before each point (so, arclen[0] = 0, arclen[1] = distance(pts[0], pts[1]),
   // arclen[2] = arclen[1] + distance(pts[1], pts[2]) ... arclen[n -1] = length of the entire curve, etc).
-  protected _arclen: number[] = [];
+  public _arclen: number[] = [];
   // current parametrization of the curve. When fitting, u[i] is the parametrization for the point in pts[first + i]. This is
   // an optimization for CurveBuilder, since it might not need to allocate as big of a _u as is necessary to hold the whole curve.
   protected _u: number[] = [];
@@ -118,7 +118,7 @@ export class CurveFitBase {
     }
   }
 
-  protected initializeArcLengths(): void {
+  public initializeArcLengths(): void {
     const pts = this._pts;
     const arclen = this._arclen;
     const count = pts.length;

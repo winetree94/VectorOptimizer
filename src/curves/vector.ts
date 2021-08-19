@@ -5,10 +5,6 @@ export class Vector {
 
   public constructor(public x: number, public y: number) {}
 
-  public norm(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
-  }
-
   public add(a: Vector | number): Vector {
     return new Vector(
       this.x + (a instanceof Vector ? a.x : a),
@@ -72,13 +68,5 @@ export class Vector {
 
   public normalize(): Vector {
     return this.divide(this.length());
-  }
-
-  public divideScalar(scalar: number): Vector {
-    return this.multiplyScalar(1 / scalar);
-  }
-
-  public multiplyScalar(scalar: number): Vector {
-    return new Vector((this.x *= scalar), (this.y *= scalar));
   }
 }
