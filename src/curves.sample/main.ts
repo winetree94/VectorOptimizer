@@ -6,9 +6,10 @@ const $svg: SVGSVGElement = document.getElementById(
 
 let preprocessMode: PreprocessMode = PreprocessMode.NONE;
 let renderMode: RenderMode = RenderMode.ORIGINAL_POINT;
-let linearizePointDistance: number = 1;
+let colorize: boolean = true;
+let linearizePointDistance: number = 8;
 let ramerDouglaspeucherError: number = 1;
-let curveFittingError: number = 1;
+let curveFittingError: number = 8;
 
 const $preprocessModes = document.getElementsByName('preprocess-mode');
 $preprocessModes.forEach(($preprocessMode) =>
@@ -31,6 +32,12 @@ $renderModes.forEach(($renderMode) =>
     }
   })
 );
+
+const $colorize = document.getElementById('colorize') as HTMLInputElement;
+$colorize.addEventListener('click', (e) => {
+  colorize = !!$colorize.checked;
+  onValueChanged();
+});
 
 const $linearizePointDistanceDisplay = document.getElementById(
   'linearize-point-distance'
@@ -82,5 +89,6 @@ function onValueChanged(): void {
     preprocessMode: preprocessMode,
     linearizePointDistance: linearizePointDistance,
     curveFittingError: curveFittingError,
+    colorize: colorize,
   };
 }

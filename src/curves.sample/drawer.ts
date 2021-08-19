@@ -1,7 +1,10 @@
 /* eslint-disable no-case-declarations */
 import { CurveFit } from '../curves/curve-fit';
 import { linearize } from '../curves/curve-preprocess';
-import { SampleVertexes } from '../curves/curve-preprocess.sample';
+import {
+  ExpectedLinearizedSample,
+  SampleVertexes,
+} from '../curves/curve-preprocess.sample';
 import { Vector } from '../curves/vector';
 
 function getRandomColor(): string {
@@ -37,6 +40,7 @@ export interface DrawerOptions {
   preprocessMode: PreprocessMode;
   linearizePointDistance: number;
   curveFittingError: number;
+  colorize: boolean;
 }
 
 export class Drawer {
@@ -45,8 +49,9 @@ export class Drawer {
   private _options: DrawerOptions = {
     preprocessMode: PreprocessMode.NONE,
     renderMode: RenderMode.ORIGINAL_POINT,
-    linearizePointDistance: 1,
-    curveFittingError: 1,
+    linearizePointDistance: 8,
+    curveFittingError: 8,
+    colorize: true,
   };
 
   public get options(): DrawerOptions {
@@ -169,6 +174,7 @@ export class Drawer {
 
         CurveFit.Fit(
           this.getPreprocessedVectors(),
+          // ExpectedLinearizedSample.map((point) => Vector.from(point)),
           this.options.curveFittingError
         ).forEach((bezier) => {
           const $path = document.createElementNS(
@@ -176,7 +182,10 @@ export class Drawer {
             'path'
           );
           $path.setAttribute('fill', 'none');
-          $path.setAttribute('stroke', getRandomColor());
+          $path.setAttribute(
+            'stroke',
+            this.options.colorize ? getRandomColor() : 'red'
+          );
           $path.setAttribute('stroke-width', `${2}px`);
           $path.setAttribute(
             'd',
