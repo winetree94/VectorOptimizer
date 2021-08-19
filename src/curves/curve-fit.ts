@@ -2,8 +2,25 @@ import { CubicBezier } from './cubic-bezier';
 import { CurveFitBase } from './curve-fit-base';
 import { Vector } from './vector';
 
-const END_TANGENT_N_PTS = 8;
+// Copyright (c) 2015 burningmime
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgement in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
 
+const END_TANGENT_N_PTS = 8;
 const NO_CURVES: CubicBezier[] = [];
 
 export class CurveFit extends CurveFitBase {
@@ -30,24 +47,19 @@ export class CurveFit extends CurveFitBase {
         'maxError cannot be negative/zero/less than epsilon value'
       );
     }
-    // null / undefined safety
     if (!this._pts) {
       throw new Error('points');
     }
-    // need at least 2 points to do anything
     if (this._pts.length < 2) {
       return NO_CURVES;
     }
 
-    // initialize arrays
     this._squaredError = maxError * maxError;
 
-    // Find tangents at ends
     const last: number = this._pts.length - 1;
     const tanL = this.getLeftTangent(last);
     const tanR = this.getRightTangent(0);
 
-    // do the actual fit
     this.fitRecursive(0, last, tanL, tanR);
     return this._result;
   }
@@ -63,13 +75,9 @@ export class CurveFit extends CurveFitBase {
     if (fitCurveResult.response) {
       this._result.push(curve);
     } else {
-      // If we get here, fitting failed, so we need to recurse
-      // first, get mid tangent
       const tanM1 = this.getCenterTangent(first, last, split);
       const tanM2 = new Vector(-tanM1.x, -tanM1.y);
 
-      // our end tangents might be based on points outside the new curve (this is possible for mid tangents too
-      // but since we need to maintain C1 continuity, it's too late to do anything about it)
       if (first == 0 && split < END_TANGENT_N_PTS) {
         tanL = this.getLeftTangent(split);
       }

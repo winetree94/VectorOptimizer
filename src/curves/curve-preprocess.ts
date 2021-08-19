@@ -1,15 +1,23 @@
 import { Vector } from './vector';
 
-/**
- * Creates a list of equally spaced points that lie on the path described by straight line segments between
- * adjacent points in the source list.
- *
- * @param src - Source list of points.
- * @param md - Distance between points on the new path.
- * @param keepLast - Always keep last points, default is false.
- * @param all - defualt is true.
- * @returns List of equally-spaced points on the path.
- */
+// Copyright (c) 2015 burningmime
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgement in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
 export function linearize(
   src: Vector[],
   md: number,
@@ -59,20 +67,11 @@ export function linearize(
   return dist;
 }
 
-/**
- * Removes any repeated points (that is, one point extremely close to the previous one). The same point can
- * appear multiple times just not right after one another. This does not modify the input list. If no repeats
- * were found, it returns the input list; otherwise it creates a new list with the repeats removed.
- *
- * @param pts - Initial list of points
- * @returns Either pts (if no duplicates were found), or a new list containing pts with duplicates removed.
- */
 export function removeDuplicates(pts: Vector[]): Vector[] {
   if (pts.length < 2) {
     return pts;
   }
 
-  // Common case -- no duplicates, so just return the source list
   let prev: Vector = pts[0];
   const len: number = pts.length;
   let nDup: number = 0;
@@ -85,7 +84,6 @@ export function removeDuplicates(pts: Vector[]): Vector[] {
   if (nDup == 0) {
     return pts;
   } else {
-    // Create a copy without them
     const dst: Vector[] = [];
     prev = pts[0];
     dst.push(prev);
