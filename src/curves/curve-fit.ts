@@ -11,7 +11,7 @@ const NO_CURVES: CubicBezier[] = [];
 export class CurveFit extends CurveFitBase {
   private static _instance: CurveFit;
 
-  private static GetInstance() {
+  public static GetInstance(): CurveFit {
     if (!CurveFit._instance) {
       CurveFit._instance = new CurveFit();
     }

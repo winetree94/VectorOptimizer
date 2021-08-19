@@ -12,6 +12,8 @@ describe('Preprocessing', () => {
     const vectors = SampleVertexes.map((point) => Vector.from(point));
     const linearizedVectors = linearize(vectors, 8, false, true);
 
+    expect(linearizedVectors.length).toBe(ExpectedLinearizedSample.length);
+
     linearizedVectors.forEach((linearizedVector, index) => {
       expect(approximate(linearizedVector.x)).toBe(
         approximate(ExpectedLinearizedSample[index].x)
