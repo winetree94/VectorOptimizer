@@ -11,6 +11,17 @@ export class CurveFit extends CurveFitBase {
 
   public constructor(public readonly _pts: ReadonlyArray<Vector>) {
     super();
+    const arclen = [];
+    arclen.push(0);
+    let clen = 0;
+    let pp = this._pts[0];
+    for (let i = 1; i < this._pts.length; i++) {
+      const np = this._pts[i];
+      clen += Vector.from(pp).distance(Vector.from(np));
+      arclen.push(clen);
+      pp = np;
+    }
+    this._arclen = arclen;
   }
 
   public Fit(maxError: number): CubicBezier[] {
@@ -27,7 +38,6 @@ export class CurveFit extends CurveFitBase {
     } // need at least 2 points to do anything
 
     // initialize arrays
-    this.initializeArcLengths();
     this._squaredError = maxError * maxError;
 
     // Find tangents at ends

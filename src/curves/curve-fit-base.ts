@@ -30,7 +30,7 @@ export class CurveFitBase {
   public _pts: ReadonlyArray<Vector>;
   // length of curve before each point (so, arclen[0] = 0, arclen[1] = distance(pts[0], pts[1]),
   // arclen[2] = arclen[1] + distance(pts[1], pts[2]) ... arclen[n -1] = length of the entire curve, etc).
-  public _arclen: number[] = [];
+  public _arclen: ReadonlyArray<number>;
   // current parametrization of the curve. When fitting, u[i] is the parametrization for the point in pts[first + i]. This is
   // an optimization for CurveBuilder, since it might not need to allocate as big of a _u as is necessary to hold the whole curve.
   protected _u: number[] = [];
@@ -118,20 +118,20 @@ export class CurveFitBase {
     }
   }
 
-  public initializeArcLengths(): void {
-    const pts = this._pts;
-    const arclen = this._arclen;
-    const count = pts.length;
-    arclen.push(0);
-    let clen = 0;
-    let pp = pts[0];
-    for (let i = 1; i < count; i++) {
-      const np = pts[i];
-      clen += Vector.from(pp).distance(Vector.from(np));
-      arclen.push(clen);
-      pp = np;
-    }
-  }
+  // public initializeArcLengths(): void {
+  //   const pts = this._pts;
+  //   const arclen = this._arclen;
+  //   const count = pts.length;
+  //   arclen.push(0);
+  //   let clen = 0;
+  //   let pp = pts[0];
+  //   for (let i = 1; i < count; i++) {
+  //     const np = pts[i];
+  //     clen += Vector.from(pp).distance(Vector.from(np));
+  //     arclen.push(clen);
+  //     pp = np;
+  //   }
+  // }
 
   protected FindMaxSquaredError(
     first: number,

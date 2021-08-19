@@ -5,12 +5,11 @@ import { approximate } from './math';
 import { Vector } from './vector';
 
 describe('CurveFitBase', () => {
-  it('CurveFit.InitializeArcLength', () => {
+  it('CurveFit.initializeArcLengths', () => {
     const linearized = ExpectedLinearizedSample.map((point) =>
       Vector.from(point)
     );
     const curveFit = new CurveFit(linearized);
-    curveFit.initializeArcLengths();
 
     const expected = [
       0, 6.97334051, 13.562501, 20.429615, 27.8845119, 35.5359268, 43.3639946,
