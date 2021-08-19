@@ -12,9 +12,6 @@ describe('CurveFitBase', () => {
     const results = new CurveFit(linearized).Fit(8);
     expect(results.length).toBe(ExpectedCurveFitResult.length);
     results.forEach((bezier, index) => {
-      if (index > 3) {
-        return;
-      }
       expect(approximate(bezier.p0.x, 1)).toBe(
         approximate(ExpectedCurveFitResult[index].p0.x, 1)
       );

@@ -77,7 +77,7 @@ export const ExpectedCurveFitResult = [
       y: 252,
     },
     p1: {
-      x: 463,
+      x: 462,
       y: 234.857,
     },
     p2: {
