@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <div id="svg-layout">
+        <svg id="svg-root"></svg>
+      </div>
+      <div id="functions-layout">
+        <div>
+          <h3>Preprocess Mode</h3>
+          <div id="preprocess-mode-layout">
+            <div>
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="none"
+                value="none"
+                checked
+              />
+              <label for="none">None</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="linearize"
+                value="linearize"
+              />
+              <label for="linearize">Linearize</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="preprocess-mode"
+                id="ramer-douglas-peucher"
+                value="ramer-douglas-peucher"
+                disabled
+              />
+              <label for="ramer-douglas-peucher">Ramer-Douglas-Peucher</label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Render Mode</h3>
+          <div id="render-mode-layout">
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="original-points"
+                value="original-points"
+                checked
+              />
+              <label for="original-points">Original Points</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="preprocessed"
+                value="preprocessed"
+              />
+              <label for="preprocessed">Preprocessed</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="control-points"
+                value="control-points"
+                disabled
+              />
+              <label for="control-points">Control Points</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="reparamaterized"
+                value="reparamaterized"
+                disabled
+              />
+              <label for="reparamaterized">Reparamaterized</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="render-mode"
+                id="final-curves"
+                value="final-curves"
+              />
+              <label for="final-curves">Final curves</label>
+            </div>
+          </div>
+          <div>
+            <label for="colorize">Colorize</label>
+            <input type="checkbox" name="colorize" id="colorize" checked>
+          </div>
+          <div>
+            <h3>
+              Linearize point distance:&nbsp;
+              <span id="linearize-point-distance">8</span>
+            </h3>
+            <div>
+              <input id="linearize-point-distance-slider" type="range" min="1" max="16" value="8" step="0.5" />
+            </div>
+          </div>
+          <div>
+            <h3>
+              Ramer-Douglas-peucher error:&nbsp;
+              <span id="ramer-douglas-peucher-error">1</span>
+            </h3>
+            <div>
+              <input id="ramer-douglas-peucher-error-slider" type="range" min="1" max="8" value="1" step="0.25" disabled />
+            </div>
+          </div>
+          <div>
+            <h3>
+              Curve fitting error:&nbsp;
+              <span id="curve-fitting-error">8</span>
+            </h3>
+            <div>
+              <input id="curve-fitting-error-slider" type="range" min="1" max="25" value="8" step="0.5" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      #root {
+        width: 100%;
+        height: 100vh;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+      }
+
+      #svg-layout {
+        position: relative;
+        -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+      }
+
+      #svg-root {
+        height: 100vh;
+        width: 100%;
+        border: 1px solid black;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+      }
+
+      #functions-layout {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+      }
+
+      #preprocess-mode-layout {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+      }
+
+      #button-layout {
+        -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+                flex: 0 0 auto;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+      }
+    </style>
+  <script src="curves.min.js"></script></body>
+</html>

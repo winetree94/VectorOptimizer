@@ -30,7 +30,7 @@ module.exports = {
   output: {
     library: 'Curves',
     libraryTarget: 'umd',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './docs'),
     filename: 'curves.min.js'
   },
   devtool: 'source-map',
