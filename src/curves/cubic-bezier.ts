@@ -1,6 +1,20 @@
-import { Vector } from './vector';
+import { Point, Vector } from './vector';
 
 export class CubicBezier {
+  public static from(cubicBezierLike: {
+    p0: Point;
+    p1: Point;
+    p2: Point;
+    p3: Point;
+  }): CubicBezier {
+    return new CubicBezier(
+      Vector.from(cubicBezierLike.p0),
+      Vector.from(cubicBezierLike.p1),
+      Vector.from(cubicBezierLike.p2),
+      Vector.from(cubicBezierLike.p3)
+    );
+  }
+
   public constructor(
     public readonly p0: Vector,
     public readonly p1: Vector,

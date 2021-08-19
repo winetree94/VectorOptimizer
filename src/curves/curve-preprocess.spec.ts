@@ -3,9 +3,8 @@ import {
   ExpectedLinearizedSample,
   SampleVertexes,
 } from './curve-preprocess.sample';
+import { approximate } from './math';
 import { Vector } from './vector';
-
-const approximate = (a: number) => Math.floor(a * 10) / 10;
 
 describe('Preprocessing', () => {
   it('linearize', () => {

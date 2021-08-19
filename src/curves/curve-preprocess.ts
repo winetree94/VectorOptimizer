@@ -67,7 +67,7 @@ export function linearize(
  * @param pts - Initial list of points
  * @returns Either pts (if no duplicates were found), or a new list containing pts with duplicates removed.
  */
-export function RemoveDuplicates(pts: Vector[]): Vector[] {
+export function removeDuplicates(pts: Vector[]): Vector[] {
   if (pts.length < 2) {
     return pts;
   }
@@ -98,81 +98,4 @@ export function RemoveDuplicates(pts: Vector[]): Vector[] {
     }
     return dst;
   }
-}
-
-/// <summary>
-/// "Reduces" a set of line segments by removing points that are too far away. Does not modify the input list; returns
-/// a new list with the points removed.
-/// The image says it better than I could ever describe: http://upload.wikimedia.org/wikipedia/commons/3/30/Douglas-Peucker_animated.gif
-/// The wiki article: http://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
-/// Based on:  http://www.codeproject.com/Articles/18936/A-Csharp-Implementation-of-Douglas-Peucker-Line-Ap
-/// </summary>
-/// <param name="pts">Points to reduce</param>
-/// <param name="error">Maximum distance of a point to a line. Low values (~2-4) work well for mouse/touchscreen data.</param>
-/// <returns>A new list containing only the points needed to approximate the curve.</returns>
-// public static List<VECTOR> RdpReduce(List<VECTOR> pts, FLOAT error)
-// {
-//     if(pts == null) throw new ArgumentNullException("pts");
-//     pts = RemoveDuplicates(pts);
-//     if(pts.Count < 3)
-//         return new List<VECTOR>(pts);
-//     List<int> keepIndex = new List<int>(Math.Max(pts.Count / 2, 16));
-//     keepIndex.Add(0);
-//     keepIndex.Add(pts.Count - 1);
-//     RdpRecursive(pts, error, 0, pts.Count - 1, keepIndex);
-//     keepIndex.Sort();
-//     List<VECTOR> res = new List<VECTOR>(keepIndex.Count);
-//     // ReSharper disable once LoopCanBeConvertedToQuery
-//     foreach(int idx in keepIndex)
-//         res.Add(pts[idx]);
-//     return res;
-// }
-
-export function RdpReduce(pts: Vector[], error: number): Vector[] {
-  // if(pts == null)  {
-  //   throw new Error("pts");
-  // }
-  // pts = RemoveDuplicates(pts);
-  // if(pts.length < 3) {
-  //   return [...pts];
-  // }
-  // const keepIndex: number[] = [];
-  // keepIndex.push(0);
-  // keepIndex.push(pts.length - 1);
-  // RdpRecursive(pts, error, 0, pts.Count - 1, keepIndex);
-  // keepIndex.Sort();
-  // List<VECTOR> res = new List<VECTOR>(keepIndex.Count);
-  // // ReSharper disable once LoopCanBeConvertedToQuery
-  // foreach(int idx in keepIndex)
-  //     res.Add(pts[idx]);
-  // return res;
-  return [];
-}
-
-/// <summary>
-/// Finds the shortest distance between a point and a line. See: http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-/// </summary>
-/// <param name="a">First point of the line.</param>
-/// <param name="b">Last point of the line.</param>
-/// <param name="abDist">Distance between a and b (length of the line).</param>
-/// <param name="aCrossB">"a.X*b.Y - b.X*a.Y" This would be the Z-component of (⟪a.X, a.Y, 0⟫ ⨯ ⟪b.X, b.Y, 0⟫) in 3-space.</param>
-/// <param name="p">The point to test.</param>
-/// <returns>The perpendicular distance to the line.</returns>
-export function PerpendicularDistance(
-  a: Vector,
-  b: Vector,
-  abDist: number,
-  aCrossB: number,
-  p: Vector
-): number {
-  // a profile with the test data showed that originally this was eating up ~44% of the runtime. So, this went through
-  // several iterations of optimization and staring at the disassembly. I tried different methods of using cross
-  // products, doing the computation with larger vector types, etc... this is the best I could do in ~45 minutes
-  // running on 3 hours of sleep, which is all scalar math, but RyuJIT puts it into XMM registers and does
-  // ADDSS/SUBSS/MULSS/DIVSS because that's what it likes to do whenever it sees a vector in a function.
-  const area = Math.abs(
-    aCrossB + b.x * p.y + p.x * a.y - p.x * b.y - a.x * p.y
-  );
-  const height = area / abDist;
-  return height;
 }

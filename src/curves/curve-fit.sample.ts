@@ -1,4 +1,6 @@
-export const ExpectedCurveFitResult = [
+import { CubicBezier } from './cubic-bezier';
+
+export const ExpectedCurveFitResult: ReadonlyArray<CubicBezier> = [
   {
     p0: {
       x: 127,
@@ -179,4 +181,4 @@ export const ExpectedCurveFitResult = [
       y: 319,
     },
   },
-];
+].map((data) => CubicBezier.from(data));

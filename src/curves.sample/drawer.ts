@@ -176,7 +176,7 @@ export class Drawer {
           this.getPreprocessedVectors()
           // ExpectedLinearizedSample.map((point) => Vector.from(point))
         );
-        curveFit.Fit(this.options.curveFittingError).forEach((bezier) => {
+        curveFit.fit(this.options.curveFittingError).forEach((bezier) => {
           const $path = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'path'

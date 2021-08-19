@@ -1,5 +1,10 @@
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export class Vector {
-  public static from(point: { x: number; y: number }): Vector {
+  public static from(point: Point): Vector {
     return new Vector(point.x, point.y);
   }
 

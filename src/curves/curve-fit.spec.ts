@@ -9,7 +9,7 @@ describe('CurveFitBase', () => {
     const linearized = ExpectedLinearizedSample.map((point) =>
       Vector.from(point)
     );
-    const results = new CurveFit(linearized).Fit(8);
+    const results = new CurveFit(linearized).fit(8);
     expect(results.length).toBe(ExpectedCurveFitResult.length);
     results.forEach((bezier, index) => {
       expect(approximate(bezier.p0.x, 1)).toBe(

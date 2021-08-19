@@ -24,7 +24,7 @@ export class CurveFit extends CurveFitBase {
     this._arclen = arclen;
   }
 
-  public Fit(maxError: number): CubicBezier[] {
+  public fit(maxError: number): CubicBezier[] {
     if (maxError < Number.EPSILON) {
       throw new Error(
         'maxError cannot be negative/zero/less than epsilon value'
@@ -48,15 +48,15 @@ export class CurveFit extends CurveFitBase {
     const tanR = this.getRightTangent(0);
 
     // do the actual fit
-    this.FitRecursive(0, last, tanL, tanR);
+    this.fitRecursive(0, last, tanL, tanR);
     return this._result;
   }
 
-  private FitRecursive(first = 0, last = 0, tanL: Vector, tanR: Vector): void {
+  private fitRecursive(first = 0, last = 0, tanL: Vector, tanR: Vector): void {
     let split = 0;
     let curve = null;
 
-    const fitCurveResult = this.FitCurve(first, last, tanL, tanR, curve, split);
+    const fitCurveResult = this.fitCurve(first, last, tanL, tanR, curve, split);
     split = fitCurveResult.split;
     curve = fitCurveResult.curve;
 
@@ -65,7 +65,7 @@ export class CurveFit extends CurveFitBase {
     } else {
       // If we get here, fitting failed, so we need to recurse
       // first, get mid tangent
-      const tanM1 = this.GetCenterTangent(first, last, split);
+      const tanM1 = this.getCenterTangent(first, last, split);
       const tanM2 = new Vector(-tanM1.x, -tanM1.y);
 
       // our end tangents might be based on points outside the new curve (this is possible for mid tangents too
@@ -81,8 +81,8 @@ export class CurveFit extends CurveFitBase {
       }
 
       // do actual recursion
-      this.FitRecursive(first, split, tanL, tanM1);
-      this.FitRecursive(split, last, tanM2, tanR);
+      this.fitRecursive(first, split, tanL, tanM1);
+      this.fitRecursive(split, last, tanM2, tanR);
     }
   }
 }

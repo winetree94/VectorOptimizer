@@ -1,4 +1,6 @@
-export const SampleVertexes = [
+import { Point } from './vector';
+
+export const SampleVertexes: ReadonlyArray<Point> = [
   {
     x: 127,
     y: 152,
@@ -3865,7 +3867,7 @@ export const SampleVertexes = [
   },
 ];
 
-export const ExpectedLinearizedSample = [
+export const ExpectedLinearizedSample: ReadonlyArray<Point> = [
   {
     x: 127,
     y: 152,
