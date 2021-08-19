@@ -172,27 +172,30 @@ export class Drawer {
         $path.setAttribute('fill', 'none');
         $path.setAttribute('stroke', 'red');
 
-        CurveFit.Fit(
-          this.getPreprocessedVectors(),
-          // ExpectedLinearizedSample.map((point) => Vector.from(point)),
-          this.options.curveFittingError
-        ).forEach((bezier) => {
-          const $path = document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'path'
-          );
-          $path.setAttribute('fill', 'none');
-          $path.setAttribute(
-            'stroke',
-            this.options.colorize ? getRandomColor() : 'red'
-          );
-          $path.setAttribute('stroke-width', `${2}px`);
-          $path.setAttribute(
-            'd',
-            `M ${bezier.p0.x} ${bezier.p0.y} C ${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`
-          );
-          this.element.appendChild($path);
-        });
+        const curveFit = new CurveFit(this.getPreprocessedVectors());
+        curveFit
+          .Fit(
+            // this.getPreprocessedVectors(),
+            // ExpectedLinearizedSample.map((point) => Vector.from(point)),
+            this.options.curveFittingError
+          )
+          .forEach((bezier) => {
+            const $path = document.createElementNS(
+              'http://www.w3.org/2000/svg',
+              'path'
+            );
+            $path.setAttribute('fill', 'none');
+            $path.setAttribute(
+              'stroke',
+              this.options.colorize ? getRandomColor() : 'red'
+            );
+            $path.setAttribute('stroke-width', `${2}px`);
+            $path.setAttribute(
+              'd',
+              `M ${bezier.p0.x} ${bezier.p0.y} C ${bezier.p1.x} ${bezier.p1.y} ${bezier.p2.x} ${bezier.p2.y} ${bezier.p3.x} ${bezier.p3.y}`
+            );
+            this.element.appendChild($path);
+          });
         break;
     }
   }

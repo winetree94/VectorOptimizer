@@ -2,65 +2,42 @@ import { CubicBezier } from './cubic-bezier';
 import { CurveFitBase } from './curve-fit-base';
 import { Vector } from './vector';
 
-const MAX_ITERS = 4;
 const END_TANGENT_N_PTS = 8;
-const MID_TANGENT_N_PTS = 4;
 
 const NO_CURVES: CubicBezier[] = [];
 
 export class CurveFit extends CurveFitBase {
-  private static _instance: CurveFit;
-
-  public static GetInstance(): CurveFit {
-    if (!CurveFit._instance) {
-      CurveFit._instance = new CurveFit();
-    }
-    return CurveFit._instance;
-  }
-
   private _result: CubicBezier[] = [];
 
-  private constructor() {
+  public constructor(public readonly _pts: ReadonlyArray<Vector>) {
     super();
   }
 
-  public static Fit(points: Vector[], maxError: number): CubicBezier[] {
+  public Fit(maxError: number): CubicBezier[] {
     if (maxError < Number.EPSILON) {
       throw new Error(
         'maxError cannot be negative/zero/less than epsilon value'
       );
     }
-    if (points == null) {
+    if (this._pts == null) {
       throw new Error('points');
     }
-    if (points.length < 2) {
+    if (this._pts.length < 2) {
       return NO_CURVES;
     } // need at least 2 points to do anything
 
-    const instance = CurveFit.GetInstance();
+    // initialize arrays
+    this.initializeArcLengths();
+    this._squaredError = maxError * maxError;
 
-    try {
-      // initialize arrays
-      instance._pts = points;
-      instance.initializeArcLengths();
-      instance._squaredError = maxError * maxError;
+    // Find tangents at ends
+    const last: number = this._pts.length - 1;
+    const tanL = this.getLeftTangent(last);
+    const tanR = this.getRightTangent(last);
 
-      // Find tangents at ends
-      const last: number = points.length - 1;
-      const tanL = instance.getLeftTangent(last);
-      const tanR = instance.getRightTangent(last);
-
-      // do the actual fit
-      instance.FitRecursive(0, last, tanL, tanR);
-      return instance._result;
-    } finally {
-      instance._pts = [];
-      instance._result = [];
-      instance._arclen = [];
-      instance._u = [];
-    }
-
-    return [];
+    // do the actual fit
+    this.FitRecursive(0, last, tanL, tanR);
+    return this._result;
   }
 
   private FitRecursive(first = 0, last = 0, tanL: Vector, tanR: Vector): void {
@@ -70,7 +47,6 @@ export class CurveFit extends CurveFitBase {
     const fitCurveResult = this.FitCurve(first, last, tanL, tanR, curve, split);
     split = fitCurveResult.split;
     curve = fitCurveResult.curve;
-    console.log(fitCurveResult);
 
     if (fitCurveResult.response) {
       this._result.push(curve);

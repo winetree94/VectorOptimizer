@@ -27,7 +27,7 @@ const MID_TANGENT_N_PTS = 4; // maximum number of points on each side to base mi
 // Most of this is ported from http://tog.acm.org/resources/GraphicsGems/gems/FitCurves.c
 export class CurveFitBase {
   // Points in the whole line being used for fitting.
-  public _pts: Vector[] = [];
+  public _pts: ReadonlyArray<Vector>;
   // length of curve before each point (so, arclen[0] = 0, arclen[1] = distance(pts[0], pts[1]),
   // arclen[2] = arclen[1] + distance(pts[1], pts[2]) ... arclen[n -1] = length of the entire curve, etc).
   public _arclen: number[] = [];
