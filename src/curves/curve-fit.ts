@@ -30,12 +30,14 @@ export class CurveFit extends CurveFitBase {
         'maxError cannot be negative/zero/less than epsilon value'
       );
     }
-    if (this._pts == null) {
+    // null / undefined safety
+    if (!this._pts) {
       throw new Error('points');
     }
+    // need at least 2 points to do anything
     if (this._pts.length < 2) {
       return NO_CURVES;
-    } // need at least 2 points to do anything
+    }
 
     // initialize arrays
     this._squaredError = maxError * maxError;
@@ -43,7 +45,7 @@ export class CurveFit extends CurveFitBase {
     // Find tangents at ends
     const last: number = this._pts.length - 1;
     const tanL = this.getLeftTangent(last);
-    const tanR = this.getRightTangent(last);
+    const tanR = this.getRightTangent(0);
 
     // do the actual fit
     this.FitRecursive(0, last, tanL, tanR);
