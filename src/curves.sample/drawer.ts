@@ -22,7 +22,8 @@ export interface Point {
 }
 
 export enum RenderMode {
-  ORIGINAL_POINT = 'original-points',
+  ORIGINAL_POINTS = 'original-points',
+  ORIGINAL_LINES = 'original-lines',
   PREPROCESSED = 'preprocessed',
   CONTROL_POINTS = 'control-points',
   REPARAMATERIZED = 'reparamaterized',
@@ -48,7 +49,7 @@ export class Drawer {
 
   private _options: DrawerOptions = {
     preprocessMode: PreprocessMode.NONE,
-    renderMode: RenderMode.ORIGINAL_POINT,
+    renderMode: RenderMode.ORIGINAL_POINTS,
     linearizePointDistance: 8,
     curveFittingError: 8,
     colorize: true,
@@ -149,12 +150,33 @@ export class Drawer {
 
   private render(): void {
     switch (this.options.renderMode) {
-      case RenderMode.ORIGINAL_POINT:
+      case RenderMode.ORIGINAL_POINTS:
         this.clearView();
         this.originPoints.forEach((point) => {
           const $circle = this.createCircle(point);
           this.element.appendChild($circle);
         });
+        break;
+      case RenderMode.ORIGINAL_LINES:
+        this.clearView();
+        for (let i = 1; i < this.originPoints.length; i++) {
+          const previous = this.originPoints[i - 1];
+          const current = this.originPoints[i];
+          const $polyline = document.createElementNS(
+            'http://www.w3.org/2000/svg',
+            'polyline'
+          );
+          $polyline.setAttribute('fill', 'none');
+          $polyline.setAttribute(
+            'stroke',
+            this.options.colorize ? getRandomColor() : 'red'
+          );
+          $polyline.setAttribute(
+            'points',
+            `${previous.x} ${previous.y} ${current.x}, ${current.y}`
+          );
+          this.element.appendChild($polyline);
+        }
         break;
       case RenderMode.PREPROCESSED:
         this.clearView();

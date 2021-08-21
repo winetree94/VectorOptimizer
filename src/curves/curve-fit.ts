@@ -23,6 +23,25 @@ import { Vector } from './vector';
 const END_TANGENT_N_PTS = 8;
 const NO_CURVES: CubicBezier[] = [];
 
+export function fit(points: readonly Vector[]): CubicBezier[] {
+  const arcLen = generateArcLengths(points);
+  return [];
+}
+
+export function generateArcLengths(points: ReadonlyArray<Vector>): number[] {
+  const results: number[] = [];
+  results.push(0);
+  let clen = 0;
+  let pp = points[0];
+  for (let i = 1; i < points.length; i++) {
+    const np = points[i];
+    clen += Vector.from(pp).distance(Vector.from(np));
+    results.push(clen);
+    pp = np;
+  }
+  return results;
+}
+
 export class CurveFit extends CurveFitBase {
   private _result: CubicBezier[] = [];
 

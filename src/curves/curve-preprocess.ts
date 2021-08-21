@@ -20,16 +20,18 @@ import { Vector } from './vector';
 
 export function linearize(
   src: Vector[],
-  md: number,
-  keepLast: boolean = false,
-  all: boolean = true
+  minDistance: number,
+  alwaysKeepLastVertex: boolean = false,
+  alwaysLinearizeAllVertexes: boolean = true
 ): Vector[] {
   const dist: Vector[] = [];
   if (src === null) {
-    throw new Error('src');
+    throw new Error('Source vector array is null');
   }
-  if (md <= Number.EPSILON) {
-    throw new Error(`md ${md}' is be less than epislon ${Number.EPSILON}`);
+  if (minDistance <= Number.EPSILON) {
+    throw new Error(
+      `md ${minDistance}' is be less than epsilon ${Number.EPSILON}`
+    );
   }
 
   if (src.length > 0) {
@@ -40,13 +42,13 @@ export function linearize(
       const p0 = src[ip - 1];
       const p1 = src[ip];
       const td = p0.distance(p1);
-      if (cd + td > md) {
-        const pd = md - cd;
+      if (cd + td > minDistance) {
+        const pd = minDistance - cd;
         dist.push(p0.lerp(p1, pd / td));
         let rd = td - pd;
-        while (rd > md) {
-          rd -= md;
-          if (all) {
+        while (rd > minDistance) {
+          rd -= minDistance;
+          if (alwaysLinearizeAllVertexes) {
             const np = p0.lerp(p1, (td - rd) / td);
             if (!np.equalsOrClose(pp)) {
               dist.push(np);
@@ -60,7 +62,7 @@ export function linearize(
       }
     }
     const lp = src[src.length - 1];
-    if (keepLast || !pp.equalsOrClose(lp)) {
+    if (alwaysKeepLastVertex || !pp.equalsOrClose(lp)) {
       dist.push(lp);
     }
   }

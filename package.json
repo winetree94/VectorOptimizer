@@ -2,8 +2,8 @@
   "name": "curves",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "build/curves/main.js",
+  "types": "build/curves/main.d.ts",
   "author": "winetree94",
   "license": "ISC",
   "scripts": {

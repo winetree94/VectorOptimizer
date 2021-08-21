@@ -5,7 +5,7 @@ const $svg: SVGSVGElement = document.getElementById(
 ) as unknown as SVGSVGElement;
 
 let preprocessMode: PreprocessMode = PreprocessMode.NONE;
-let renderMode: RenderMode = RenderMode.ORIGINAL_POINT;
+let renderMode: RenderMode = RenderMode.ORIGINAL_POINTS;
 let colorize: boolean = true;
 let linearizePointDistance: number = 8;
 let ramerDouglaspeucherError: number = 1;
