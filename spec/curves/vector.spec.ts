@@ -1,5 +1,5 @@
-import { approximate } from './math';
-import { Vector } from './vector';
+import { approximate } from '../../src/curves/math';
+import { Vector } from '../../src/curves/vector';
 
 describe('Vector', () => {
   it('distance', () => {

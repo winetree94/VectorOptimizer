@@ -1,4 +1,4 @@
-import { CubicBezier } from './cubic-bezier';
+import { CubicBezier } from '../../src/curves/cubic-bezier';
 
 export const ExpectedCurveFitResult: ReadonlyArray<CubicBezier> = [
   {

@@ -1,10 +1,10 @@
-import { linearize } from './curve-preprocess';
+import { linearize } from '../../src/curves/curve-preprocess';
 import {
   ExpectedLinearizedSample,
   SampleVertexes,
 } from './curve-preprocess.sample';
-import { approximate } from './math';
-import { Vector } from './vector';
+import { approximate } from '../../src/curves/math';
+import { Vector } from '../../src/curves/vector';
 
 describe('Preprocessing', () => {
   it('linearize', () => {

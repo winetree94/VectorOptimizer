@@ -1,7 +1,7 @@
-import { CurveFit } from './curve-fit';
+import { CurveFit } from '../../src/curves/curve-fit';
+import { approximate } from '../../src/curves/math';
+import { Vector } from '../../src/curves/vector';
 import { ExpectedLinearizedSample } from './curve-preprocess.sample';
-import { approximate } from './math';
-import { Vector } from './vector';
 
 describe('CurveFitBase', () => {
   it('CurveFit.initializeArcLengths', () => {

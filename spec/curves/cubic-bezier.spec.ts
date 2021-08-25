@@ -1,6 +1,6 @@
-import { CubicBezier } from './cubic-bezier';
-import { approximate } from './math';
-import { Vector } from './vector';
+import { CubicBezier } from '../../src/curves/cubic-bezier';
+import { approximate } from '../../src/curves/math';
+import { Vector } from '../../src/curves/vector';
 
 describe('CubicBezier', () => {
   it('Sample', () => {

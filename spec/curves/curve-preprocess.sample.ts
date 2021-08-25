@@ -1,4 +1,4 @@
-import { Point } from './vector';
+import { Point } from '../../src/curves/vector';
 
 export const SampleVertexes: ReadonlyArray<Point> = [
   {
