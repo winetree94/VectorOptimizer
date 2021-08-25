@@ -1,10 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { CurveFit } from '../curves/curve-fit';
 import { linearize, rdpReduce } from '../curves/curve-preprocess';
-import {
-  ExpectedLinearizedSample,
-  SampleVertexes,
-} from '../curves/curve-preprocess.sample';
 import { Vector } from '../curves/vector';
 
 function getRandomColor(): string {
