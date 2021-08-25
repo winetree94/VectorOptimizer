@@ -89,6 +89,7 @@ function onValueChanged(): void {
     preprocessMode: preprocessMode,
     linearizePointDistance: linearizePointDistance,
     curveFittingError: curveFittingError,
+    rdpError: ramerDouglaspeucherError,
     colorize: colorize,
   };
 }

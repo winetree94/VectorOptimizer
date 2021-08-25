@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { CurveFit } from '../curves/curve-fit';
-import { linearize } from '../curves/curve-preprocess';
+import { linearize, rdpReduce } from '../curves/curve-preprocess';
 import {
   ExpectedLinearizedSample,
   SampleVertexes,
@@ -40,6 +40,7 @@ export interface DrawerOptions {
   renderMode: RenderMode;
   preprocessMode: PreprocessMode;
   linearizePointDistance: number;
+  rdpError: number;
   curveFittingError: number;
   colorize: boolean;
 }
@@ -51,6 +52,7 @@ export class Drawer {
     preprocessMode: PreprocessMode.NONE,
     renderMode: RenderMode.ORIGINAL_POINTS,
     linearizePointDistance: 8,
+    rdpError: 1,
     curveFittingError: 8,
     colorize: true,
   };
@@ -144,7 +146,7 @@ export class Drawer {
           this.options.linearizePointDistance
         );
       case PreprocessMode.RAMER_DOUGLAS_PEUCHER:
-        return this.transformToVector();
+        return rdpReduce(this.transformToVector(), this.options.rdpError);
     }
   }
 
@@ -194,10 +196,7 @@ export class Drawer {
         $path.setAttribute('fill', 'none');
         $path.setAttribute('stroke', 'red');
 
-        const curveFit = new CurveFit(
-          this.getPreprocessedVectors()
-          // ExpectedLinearizedSample.map((point) => Vector.from(point))
-        );
+        const curveFit = new CurveFit(this.getPreprocessedVectors());
         curveFit.fit(this.options.curveFittingError).forEach((bezier) => {
           const $path = document.createElementNS(
             'http://www.w3.org/2000/svg',
