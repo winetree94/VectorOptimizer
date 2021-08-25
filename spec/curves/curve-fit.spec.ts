@@ -1,5 +1,8 @@
 import { CurveFit } from '../../src/curves/curve-fit';
-import { ExpectedCurveFitRamerDouglasResult, ExpectedCurveFitResult } from './curve-fit.sample';
+import {
+  ExpectedCurveFitRamerDouglasResult,
+  ExpectedCurveFitResult,
+} from './curve-fit.sample';
 import { approximate } from '../../src/curves/math';
 import { Vector } from '../../src/curves/vector';
 import { ExpectedLinearizedSample } from './curve-preprocess.sample';

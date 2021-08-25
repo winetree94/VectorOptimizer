@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+import { SampleVertexes } from '../../spec/curves/curve-preprocess.sample';
 import { CurveFit } from '../curves/curve-fit';
 import { linearize, rdpReduce } from '../curves/curve-preprocess';
 import { Vector } from '../curves/vector';
@@ -42,7 +43,7 @@ export interface DrawerOptions {
 }
 
 export class Drawer {
-  private originPoints: Point[] = [];
+  private originPoints: Point[] = SampleVertexes.slice(0);
 
   private _options: DrawerOptions = {
     preprocessMode: PreprocessMode.NONE,
@@ -69,6 +70,7 @@ export class Drawer {
     element.addEventListener('pointerdown', this.onMouseDown.bind(this));
     element.addEventListener('mousedown', this.onMouseDown.bind(this));
     element.addEventListener('touchstart', (e) => e.preventDefault());
+    this.render();
   }
 
   private onMouseDown(event: MouseEvent): void {
@@ -192,8 +194,10 @@ export class Drawer {
         $path.setAttribute('fill', 'none');
         $path.setAttribute('stroke', 'red');
 
-        const curveFit = new CurveFit(this.getPreprocessedVectors());
-        curveFit.fit(this.options.curveFittingError).forEach((bezier) => {
+        const preproccessed = this.getPreprocessedVectors();
+        const curveFit = new CurveFit(preproccessed);
+        const cubicBeziers = curveFit.fit(this.options.curveFittingError);
+        cubicBeziers.forEach((bezier) => {
           const $path = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'path'
