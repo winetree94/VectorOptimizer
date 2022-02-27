@@ -1,3 +1,7 @@
+![CI](https://github.com/winetree94/VanillaRecyclerView/workflows/CI/badge.svg?branch=master)
+[![GitHub license](https://img.shields.io/github/license/winetree94/curves)](https://github.com/winetree94/curves/blob/master/LICENSE)
+[![npm version](https://badge.fury.io/js/curves.svg)](https://badge.fury.io/js/curves)
+
 # Curves
 
 This is Javascript / Typescript implementation of [Bobby Fraser's 'Curves' C# Project.](https://gitlab.com/burningmime/curves)
@@ -34,11 +38,36 @@ I made an example app like the origin project, so you can test how it works and 
 
 Preprocessing
 - [x] linearize
-- [] Ramer-Douglas-Puecker
+- [ ] Ramer-Douglas-Puecker
 
 Optimization
 - [x] optimization
 
-# API Document
+# Installation
 
-Still in progress
+```bash
+$ npm install curves
+```
+
+# How to import
+
+### Plain HTML
+
+```html
+<script src=""></script>
+```
+
+### CommonJS
+
+```js
+const curves = require('curves');
+```
+
+### ES6 Import
+
+
+```js
+import * as curves from 'curves';
+```
+
+# API Document

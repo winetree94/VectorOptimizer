@@ -1,8 +1,8 @@
 /* eslint-disable no-case-declarations */
-import { SampleVertexes } from '../../spec/curves/curve-preprocess.sample';
-import { CurveFit } from '../curves/curve-fit';
-import { linearize, rdpReduce } from '../curves/curve-preprocess';
-import { Vector } from '../curves/vector';
+import { SampleVertexes } from '../spec/curves/curve-preprocess.sample';
+import { CurveFit } from '../src/curves/curve-fit';
+import { linearize, rdpReduce } from '../src/curves/curve-preprocess';
+import { Vector } from '../src/curves/vector';
 
 function getRandomColor(): string {
   const letters = '0123456789ABCDEF';
