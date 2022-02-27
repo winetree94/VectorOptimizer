@@ -1,10 +1,12 @@
 {
   "name": "curves",
   "version": "1.0.0",
-  "description": "",
+  "description": "curves for javascript",
   "main": "build/main.js",
   "types": "build/main.d.ts",
   "author": "winetree94",
+  "repository": "https://github.com/winetree94/curves",
+  "homepage": "https://github.com/winetree94/curves",
   "license": "ISC",
   "scripts": {
     "start": "webpack serve --host 0.0.0.0 --config ./webpack.config.dev.js",
@@ -15,10 +17,6 @@
     "build:docs": "cross-env NODE_ENV=production webpack --config ./webpack.config.dev.js",
     "serve:docs": "http-server -p 9009 ./docs",
     "test": "ts-node node_modules/jasmine/bin/jasmine"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@winetree94.github.com:winetree94/curves.git"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
