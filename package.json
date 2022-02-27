@@ -1,6 +1,6 @@
 {
   "name": "vector-optimizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "curves for javascript",
   "main": "build/main.js",
   "types": "build/main.d.ts",
