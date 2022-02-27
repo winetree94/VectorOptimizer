@@ -1,5 +1,5 @@
-import { approximate } from '../../src/curves/math';
-import { Vector } from '../../src/curves/vector';
+import { approximate } from '../../src/vertor-optimizer/math';
+import { Vector } from '../../src/vertor-optimizer/vector';
 
 describe('Vector', () => {
   it('distance', () => {

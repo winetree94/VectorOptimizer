@@ -1,4 +1,4 @@
-import { CubicBezier } from '../../src/curves/cubic-bezier';
+import { CubicBezier } from '../../src/vertor-optimizer/cubic-bezier';
 
 export const ExpectedCurveFitResult: ReadonlyArray<CubicBezier> = [
   {

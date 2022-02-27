@@ -1,12 +1,12 @@
 ![CI](https://github.com/winetree94/VanillaRecyclerView/workflows/CI/badge.svg?branch=master)
-[![GitHub license](https://img.shields.io/github/license/winetree94/curves)](https://github.com/winetree94/curves/blob/master/LICENSE)
-[![npm version](https://badge.fury.io/js/curves.svg)](https://badge.fury.io/js/curves)
+[![GitHub license](https://img.shields.io/github/license/winetree94/VectorOptimizer)](https://github.com/winetree94/VectorOptimizer/blob/master/LICENSE)
+[![npm version](https://badge.fury.io/js/VectorOptimizer.svg)](https://badge.fury.io/js/VectorOptimizer)
 
-# Curves
+# VectorOptimizer
 
 This is Javascript / Typescript implementation of [Bobby Fraser's 'Curves' C# Project.](https://gitlab.com/burningmime/curves)
 
-Curves is vector optimization utility library, and i have modified it for use browser and node.js environment.
+VectorOptimizer is vector optimization utility library, and i have modified it for use browser and node.js environment.
 
 After implementing all the features of the origin project first, I will add my own stuff that I need.
 
@@ -32,7 +32,7 @@ Using this, you can reduce the size of svg and increase the performance
 
 ![Screen Shot 2021-08-20 at 9 40 07 PM](https://user-images.githubusercontent.com/51369962/130234610-044bc079-2d4a-42a5-a60d-268c92103370.png)
 
-I made an example app like the origin project, so you can test how it works and how much it deforms. ([Link](https://winetree94.github.io/curves))
+I made an example app like the origin project, so you can test how it works and how much it deforms. ([Link](https://winetree94.github.io/VectorOptimizer))
 
 # Currently Supported Features
 
@@ -46,7 +46,7 @@ Optimization
 # Installation
 
 ```bash
-$ npm install curves
+$ npm install vector-optimizer
 ```
 
 # How to import
@@ -60,14 +60,14 @@ $ npm install curves
 ### CommonJS
 
 ```js
-const curves = require('curves');
+const VectorOptimizer = require('vector-optimizer');
 ```
 
 ### ES6 Import
 
 
 ```js
-import * as curves from 'curves';
+import * as VectorOptimizer from 'vector-optimizer';
 ```
 
 # API Document

@@ -1,10 +1,10 @@
-import { CurveFit } from '../../src/curves/curve-fit';
+import { CurveFit } from '../../src/vertor-optimizer/curve-fit';
 import {
   ExpectedCurveFitRamerDouglasResult,
   ExpectedCurveFitResult,
 } from './curve-fit.sample';
-import { approximate } from '../../src/curves/math';
-import { Vector } from '../../src/curves/vector';
+import { approximate } from '../../src/vertor-optimizer/math';
+import { Vector } from '../../src/vertor-optimizer/vector';
 import { ExpectedLinearizedSample } from './curve-preprocess.sample';
 
 describe('CurveFitBase', () => {

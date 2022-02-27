@@ -9,9 +9,9 @@ module.exports = {
     minimize: true,
   },
   output: {
-    library: 'Curves',
+    library: 'VectorOptimizer',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, './dist'),
-    filename: 'curves.min.js',
+    filename: 'vector-optimizer.min.js',
   },
 }

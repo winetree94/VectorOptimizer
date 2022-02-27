@@ -1,2 +1,2 @@
-import * as Curves from './main';
-export = Curves;
+import * as VectorOptimizer from './main';
+export = VectorOptimizer;

@@ -1,6 +1,6 @@
-import { CubicBezier } from '../../src/curves/cubic-bezier';
-import { approximate } from '../../src/curves/math';
-import { Vector } from '../../src/curves/vector';
+import { CubicBezier } from '../../src/vertor-optimizer/cubic-bezier';
+import { approximate } from '../../src/vertor-optimizer/math';
+import { Vector } from '../../src/vertor-optimizer/vector';
 
 describe('CubicBezier', () => {
   it('Sample', () => {

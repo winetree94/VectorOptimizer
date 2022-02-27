@@ -18,10 +18,10 @@ module.exports = {
     }),
   ],
   output: {
-    library: 'Curves',
+    library: 'VectorOptimizer',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, './docs'),
-    filename: 'curves.min.js',
+    filename: 'vector-optimizer.min.js',
   },
   devtool: 'source-map',
 }
