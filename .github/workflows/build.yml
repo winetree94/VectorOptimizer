@@ -1,0 +1,38 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: release version (x.x.x)
+        required: true
+      changelog:
+        type: string
+        description: changelog for release
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # Checkout
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+
+    # Install Dependencies
+    - name: install dependencies
+      run: npm ci
+
+    # Build
+    - name: build
+      run: |
+        npm run build
+
+    # Npm Publish
+    # - uses: JS-DevTools/npm-publish@v1
+    #   with:
+    #     token: ${{ secrets.NPM_TOKEN }}
